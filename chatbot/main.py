@@ -31,7 +31,10 @@ def check_all_messages(message):
 
     response("hello!",['hello','hi','hola','salam','hey'],single_response=True)
     response("I am doing fine and you",['how',"are","you","doing"],requirred_words=["how"])
-    response("Thank you",["i",'love',"code"])
+    response("Thank you",["i",'love',"you"])
+    best_match=max(highest_prob_list,key=highest_prob_list.get)
+    print(highest_prob_list)
+    return best_match
 def get_response(user_input):
 
     split_message=re.split(r'\s+|[,;?.-]\s',user_input.lower())
