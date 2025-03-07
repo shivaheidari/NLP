@@ -2,6 +2,7 @@ import shap
 import numpy as np
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.linear_model import LogisticRegression
+import matplotlib.pyplot as plt
 
 # Sample phishing emails
 emails = [
@@ -10,20 +11,22 @@ emails = [
     "Update your payment information immediately to avoid suspension!",
 ]
 
-# Labels (1 = phishing, 0 = legit)
+
 labels = [1, 0, 1]
 
-# Convert text to TF-IDF vectors
+
 vectorizer = TfidfVectorizer()
 X = vectorizer.fit_transform(emails)
 
-# Train a simple phishing detection model
+
 model = LogisticRegression()
 model.fit(X, labels)
 
-# Use SHAP for explainability
-explainer = shap.LinearExplainer(model, X)  # Works for linear models
-shap_values = explainer(X)
 
-# Visualize SHAP explanation
-shap.text_plot(shap_values)
+X_dense = X.toarray()
+
+# SHAP for explainability
+explainer = shap.Explainer(model, X_dense)  # Generic explainer
+shap_values = explainer(X_dense)
+
+shap.summary_plot(shap_values, X_dense, feature_names=vectorizer.get_feature_names_out())
