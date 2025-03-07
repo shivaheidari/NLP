@@ -3,7 +3,7 @@ import numpy as np
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.linear_model import LogisticRegression
 
-# Sample emails
+# Sample phishing emails
 emails = [
     "Your account has been compromised. Click here to secure it now!",
     "Reminder: Your company meeting is scheduled for tomorrow at 10 AM.",
@@ -21,8 +21,8 @@ X = vectorizer.fit_transform(emails)
 model = LogisticRegression()
 model.fit(X, labels)
 
-# Explain predictions with SHAP
-explainer = shap.Explainer(model, X)
+# Use SHAP for explainability
+explainer = shap.LinearExplainer(model, X)  # Works for linear models
 shap_values = explainer(X)
 
 # Visualize SHAP explanation
